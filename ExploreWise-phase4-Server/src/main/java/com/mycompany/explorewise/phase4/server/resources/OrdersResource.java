@@ -47,6 +47,14 @@ public class OrdersResource {
         Query query = em.createNamedQuery("Orders.findByUserID");
         return query.setParameter("userID", userId).getResultList();
     }
+    
+    @GET
+    @Path("/findByTrip/{tripId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Orders> findByTripId(@PathParam("tripID") Integer tripId) {
+        Query query = em.createNamedQuery("Orders.findByUserID");
+        return query.setParameter("userID", tripId).getResultList();
+    }
 
     @GET
     @Path("/findAll")
@@ -68,6 +76,16 @@ public class OrdersResource {
     @Path("/remove/{id}")
     @Transactional
     public void remove(@PathParam("id") Integer id) {
+        Orders order = em.find(Orders.class, id);
+        if (order != null) {
+            em.remove(order);
+        }
+    }
+    
+    @DELETE
+    @Path("/removebytripid/{id}")
+    @Transactional
+    public void removebytripid(@PathParam("id") Integer id) {
         Orders order = em.find(Orders.class, id);
         if (order != null) {
             em.remove(order);

@@ -111,7 +111,7 @@ public class Cities implements Serializable {
             return false;
         }
         Cities other = (Cities) object;
-        if ((this.cityID == null && other.cityID != null) || (this.cityID != null && !this.cityID.equals(other.cityID))) {
+        if((this.cityID == null && other.cityID != null) || (this.cityID != null && !this.cityID.equals(other.cityID))) {
             return false;
         }
         return true;
