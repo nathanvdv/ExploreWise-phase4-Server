@@ -41,11 +41,11 @@ public class ReviewsResource {
     }
 
     @GET
-    @Path("/findByTrip/{tripId}")
+    @Path("/findByTrip/{tripID}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Reviews> findByTripId(@PathParam("tripId") Integer tripId) {
+    public List<Reviews> findByTripId(@PathParam("tripID") Integer tripID) {
         Query query = em.createNamedQuery("Reviews.findByTripID");
-        return query.setParameter("tripID", tripId).getResultList();
+        return query.setParameter("tripID", tripID).getResultList();
     }
     
     @GET
