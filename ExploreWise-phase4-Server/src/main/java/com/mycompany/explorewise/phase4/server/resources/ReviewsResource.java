@@ -47,6 +47,18 @@ public class ReviewsResource {
         Query query = em.createNamedQuery("Reviews.findByTripID");
         return query.setParameter("tripID", tripId).getResultList();
     }
+    
+    @GET
+    @Path("/findByTripAndUser/{tripId}/{userId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Reviews> findByTripAndUser(
+            @PathParam("tripId") Integer tripId,
+            @PathParam("userId") Integer userId) {
+        Query query = em.createNamedQuery("Reviews.findByTripAndUser");
+        return query.setParameter("tripID", tripId)
+                    .setParameter("userID", userId)
+                    .getResultList();
+    }
 
     @GET
     @Path("/findAll")
@@ -68,6 +80,16 @@ public class ReviewsResource {
     @Path("/remove/{id}")
     @Transactional
     public void remove(@PathParam("id") Integer id) {
+        Reviews review = em.find(Reviews.class, id);
+        if (review != null) {
+            em.remove(review);
+        }
+    }
+    
+    @DELETE
+    @Path("/removeByUserID/{id}")
+    @Transactional
+    public void removeByUserID(@PathParam("id") Integer id) {
         Reviews review = em.find(Reviews.class, id);
         if (review != null) {
             em.remove(review);

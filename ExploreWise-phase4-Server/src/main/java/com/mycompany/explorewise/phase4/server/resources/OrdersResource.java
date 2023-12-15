@@ -91,5 +91,15 @@ public class OrdersResource {
             em.remove(order);
         }
     }
+    
+    @DELETE
+    @Path("/removeByUserID/{id}")
+    @Transactional
+    public void removeByUserID(@PathParam("id") Integer id) {
+        Orders order = em.find(Orders.class, id);
+        if (order != null) {
+            em.remove(order);
+        }
+    }
 }
 

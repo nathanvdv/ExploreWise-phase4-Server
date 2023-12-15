@@ -57,6 +57,18 @@ public class UsersResource {
         }
         return null;
     }
+    
+    @GET
+    @Path("/findByEmail/{email}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Users findByEmail(@PathParam("email") String email) {
+        Query query = em.createNamedQuery("Users.findByEmail");
+        List<Users> users = query.setParameter("email", email).getResultList();
+        if (!users.isEmpty()) {
+            return users.get(0);
+        }
+        return null;
+    }
 
     @GET
     @Path("/findAll")
