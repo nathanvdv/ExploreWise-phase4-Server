@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.explorewise.phase4.server.models;
+
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,19 +13,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
- * @author romainhovius
+ * @author nathan
  */
 @Entity
 @Table(name = "Users")
@@ -58,12 +56,14 @@ public class Users implements Serializable {
     @Column(name = "Balance")
     private Double balance;
     
+    @JsonbTransient
     @OneToMany(mappedBy = "user")
     private List<Orders> orders;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "user")
     private List<Reviews> reviews;
-        
+    
     public Users() {
     }
  /*public List<Trips> getPastCityTrips() {

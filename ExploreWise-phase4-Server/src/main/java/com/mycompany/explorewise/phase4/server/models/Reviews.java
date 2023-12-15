@@ -4,6 +4,7 @@
  */
 package com.mycompany.explorewise.phase4.server.models;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ import java.util.Date;
 
 /**
  *
- * @author romainhovius
+ * @author nathan
  */
 @Entity
 @Table(name = "Reviews")
@@ -52,10 +53,12 @@ public class Reviews implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date reviewDate;
     
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "UserID")
     private Users user;
-
+    
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "TripID")
     private Trips trip;

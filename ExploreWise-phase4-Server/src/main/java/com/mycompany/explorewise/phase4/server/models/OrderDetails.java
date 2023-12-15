@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author romainhovius
+ * @author nathan
  */
 @Entity
 @Table(name = "OrderDetails")

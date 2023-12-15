@@ -4,6 +4,7 @@
  */
 package com.mycompany.explorewise.phase4.server.models;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,12 +20,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 /**
  *
- * @author romainhovius
+ * @author nathan
  */
 @Entity
 @Table(name = "Orders")
@@ -56,14 +58,17 @@ public class Orders implements Serializable {
     @Column(name = "NumberOfTravelers")
     private Integer numberOfTravelers;
     
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "UserID", referencedColumnName = "UserID")
     private Users user;
-
+    
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "tripID", insertable = false, updatable = false)
     private Trips trip;
-
+    
+    @JsonbTransient
     @OneToMany(mappedBy = "order")
     private List<OrderDetails> orderDetails;
     

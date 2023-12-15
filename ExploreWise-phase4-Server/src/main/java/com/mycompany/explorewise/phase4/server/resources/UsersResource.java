@@ -14,6 +14,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
 @Path("users")
 public class UsersResource {
 
-    @PersistenceContext(unitName = "ExploreWise") // Replace with your actual persistence unit name
+    @PersistenceContext(unitName = "ExploreWise")
     private EntityManager em;
 
     @POST
@@ -35,9 +36,14 @@ public class UsersResource {
 
     @GET
     @Path("/find/{id}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Users find(@PathParam("id") Integer id) {
-        return em.find(Users.class, id);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findUserById(@PathParam("id") int id) {
+        Users user = em.find(Users.class, id);
+        if (user != null) {
+            return Response.ok(user).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found with ID: " + id).build();
+        }
     }
 
     @GET

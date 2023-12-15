@@ -4,25 +4,25 @@
  */
 package com.mycompany.explorewise.phase4.server.models;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+
 /**
  *
- * @author romainhovius
+ * @author nathan
  */
 @Entity
 @Table(name = "Cities")
@@ -47,6 +47,7 @@ public class Cities implements Serializable {
     @Column(name = "Description")
     private String description;
     
+    @JsonbTransient
     @OneToMany(mappedBy = "city")
     private List<Trips> trips;
     
