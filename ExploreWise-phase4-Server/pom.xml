@@ -7,7 +7,7 @@
     <packaging>war</packaging>
     <name>ExploreWise-phase4-Server-1.0-SNAPSHOT</name>
     
-    <properties>
+     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jakartaee>10.0.0</jakartaee>
     </properties>

@@ -69,6 +69,14 @@ public class UsersResource {
         }
         return null;
     }
+    
+    @GET
+    @Path("/emailExists/{email}")
+    public boolean emailExists(@PathParam("email") String email) {
+        Query query = em.createNamedQuery("Users.findByEmail");
+        List<Users> results = query.setParameter("email", email).getResultList();
+        return results.size() == 1;
+    }
 
     @GET
     @Path("/findAll")
