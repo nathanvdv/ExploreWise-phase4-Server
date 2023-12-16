@@ -52,7 +52,7 @@ public class TripsResource {
     @Path("/findAll")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Trips> findAll() {
-        Query query = em.createNamedQuery("Trips.findAll");
+        Query query = em.createNamedQuery("Trips.findAllWithReviews");
         return query.getResultList();
     }
 

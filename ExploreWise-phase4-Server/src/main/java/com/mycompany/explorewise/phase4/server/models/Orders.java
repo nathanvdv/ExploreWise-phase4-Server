@@ -4,6 +4,7 @@
  */
 package com.mycompany.explorewise.phase4.server.models;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -85,7 +86,13 @@ public class Orders implements Serializable {
     public Trips getTrip() {
         return trip;
     }
-
+    
+    @JsonbProperty("tripID")
+    public Integer getTripID() {
+        // Return the tripID for the order, if applicable
+        return tripID;
+    }
+    
     public void setTrip(Trips trip) {
         this.trip = trip;
     }
@@ -113,9 +120,6 @@ public class Orders implements Serializable {
         this.orderID = orderID;
     }
     
-    public Integer getTripID() {
-        return tripID;
-    }
 
     public void setTripID(Integer tripID) {
         this.tripID = tripID;

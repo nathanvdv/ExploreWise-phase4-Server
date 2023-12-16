@@ -4,6 +4,7 @@
  */
 package com.mycompany.explorewise.phase4.server.models;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -55,12 +56,12 @@ public class Reviews implements Serializable {
     
     @JsonbTransient
     @ManyToOne
-    @JoinColumn(name = "UserID")
+    @JoinColumn(name = "UserID", referencedColumnName = "UserID")
     private Users user;
     
     @JsonbTransient
     @ManyToOne
-    @JoinColumn(name = "TripID")
+    @JoinColumn(name = "TripID", insertable = false, updatable = false)
     private Trips trip;
     
     public Users getUser() {
@@ -70,11 +71,20 @@ public class Reviews implements Serializable {
     public void setUser(Users user) {
         this.user = user;
     }
-
+    
+    @JsonbProperty("userID")
+    public Integer getUserID() {
+        return user.getUserID();
+    }
     public Trips getTrip() {
         return trip;
     }
-
+    
+    @JsonbProperty("tripID")
+    public Integer getTripID() {
+        return trip.getTripID();
+    }
+    
     public void setTrip(Trips trip) {
         this.trip = trip;
     }

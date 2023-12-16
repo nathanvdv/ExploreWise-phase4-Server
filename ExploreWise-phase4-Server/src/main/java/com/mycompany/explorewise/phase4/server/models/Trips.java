@@ -5,6 +5,8 @@
 package com.mycompany.explorewise.phase4.server.models;
 
 import jakarta.json.bind.annotation.JsonbTransient;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +23,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.Collection;
@@ -38,6 +41,7 @@ import java.util.List;
     @NamedQuery(name = "Trips.findByTripID", query = "SELECT t FROM Trips t WHERE t.tripID = :tripID"),
     @NamedQuery(name = "Trips.findByCityID", query = "SELECT t FROM Trips t WHERE t.city.cityID = :cityID"),
     @NamedQuery(name = "Trips.findByTripName", query = "SELECT t FROM Trips t WHERE t.tripName = :tripName"),
+    @NamedQuery(name = "Trips.findAllWithReviews", query = "SELECT t FROM Trips t LEFT JOIN FETCH t.reviews"),
     @NamedQuery(name = "Trips.findByPartialTripName", query = "SELECT t FROM Trips t WHERE t.tripName LIKE :partialTripName"),
     @NamedQuery(name = "Trips.findByPrice", query = "SELECT t FROM Trips t WHERE t.price = :price"),
     @NamedQuery(name = "Trips.findByStartDate", query = "SELECT t FROM Trips t WHERE t.startDate = :startDate"),
@@ -54,6 +58,7 @@ public class Trips implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "TripID")
+    @JsonProperty
     private Integer tripID;
     @Column(name = "TripName")
     private String tripName;
@@ -77,10 +82,12 @@ public class Trips implements Serializable {
     @ManyToOne
     @JoinColumn(name = "CityID", referencedColumnName = "CityID")
     private Cities city;
+    
     @JsonbTransient
     @OneToMany(mappedBy = "trip")
     private List<Orders> orders;
-    @JsonbTransient
+    
+    @JsonbProperty("reviews")
     @OneToMany(mappedBy = "trip")
     private List<Reviews> reviews;
 
@@ -190,6 +197,17 @@ public class Trips implements Serializable {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+    @Transient
+    public Double getAverageRating() {
+        if (reviews == null || reviews.isEmpty()) {
+            return null;
+        }
+        double sum = 0.0;
+        for (Reviews review : reviews) {
+            sum += review.getRating();
+        }
+        return sum / reviews.size();
     }
 /*
     public Double getAverageRatingByTripID(Integer tripID) {
