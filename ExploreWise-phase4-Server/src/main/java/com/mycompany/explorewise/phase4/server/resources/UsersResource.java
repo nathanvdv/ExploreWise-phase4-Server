@@ -45,7 +45,7 @@ public class UsersResource {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found with ID: " + id).build();
         }
     }
-
+    
     @GET
     @Path("/findByUsername/{username}")
     @Produces({MediaType.APPLICATION_JSON})
@@ -95,11 +95,20 @@ public class UsersResource {
     }
 
     @DELETE
-    @Path("/remove/{id}")
+    @Path("/remove/{userID}")
     @Transactional
-    public void remove(@PathParam("id") Integer id) {
-        Users user = em.find(Users.class, id);
+    public void remove(@PathParam("userID") Integer userID) {
+        Users user = em.find(Users.class, userID);
+
         if (user != null) {
+            em.createQuery("DELETE FROM Orders o WHERE o.user.userID = :userID")
+              .setParameter("userID", userID)
+              .executeUpdate();
+
+            em.createQuery("DELETE FROM Reviews r WHERE r.user.userID = :userID")
+              .setParameter("userID", userID)
+              .executeUpdate();
+
             em.remove(user);
         }
     }

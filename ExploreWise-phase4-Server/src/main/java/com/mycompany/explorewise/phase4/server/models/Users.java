@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -57,30 +59,16 @@ public class Users implements Serializable {
     private Double balance;
     
     @JsonbTransient
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Orders> orders;
 
     @JsonbTransient
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Reviews> reviews;
     
     public Users() {
     }
- /*public List<Trips> getPastCityTrips() {
-    List<Trips> pastCityTrips = new ArrayList<>();
-    Date currentDate = new Date(); // Get the current date
-
-    for (Trips trip : tripsList) {
-        if (trip.getEndDate() != null && trip.getEndDate().before(currentDate)) {
-            // Check if the trip has an end date and if it's in the past
-            pastCityTrips.add(trip);
-        }
-    }
-
-    System.out.println("Number of past city trips: " + pastCityTrips.size()); // Debug statement
-
-    return pastCityTrips;
-}*/
+    
     public Users(Integer userID) {
         this.userID = userID;
     }
