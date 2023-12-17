@@ -16,9 +16,23 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jakarta.ws.rs.client.WebTarget;
+import java.util.List;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
@@ -31,6 +45,7 @@ import java.util.List;
     @NamedQuery(name = "Cities.findByCityID", query = "SELECT c FROM Cities c WHERE c.cityID = :cityID"),
     @NamedQuery(name = "Cities.findByCityName", query = "SELECT c FROM Cities c WHERE c.cityName = :cityName"),
     @NamedQuery(name = "Cities.findByCountry", query = "SELECT c FROM Cities c WHERE c.country = :country")})
+//@SessionScoped
 public class Cities implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +66,8 @@ public class Cities implements Serializable {
     @OneToMany(mappedBy = "city")
     private List<Trips> trips;
     
+    //private Client client;
+    
     public List<Trips> getTrips() {
         return trips;
     }
@@ -58,7 +75,9 @@ public class Cities implements Serializable {
     public void setTrips(List<Trips> trips) {
         this.trips = trips;
     }
+    
     public Cities() {
+        //this.client = ClientBuilder.newClient();
     }
 
     public Cities(Integer cityID) {
@@ -96,6 +115,19 @@ public class Cities implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    
+   
+/*
+    public void addCity(){
+        Cities newCity = new Cities();
+        newCity.setCityName(cityName);
+        newCity.setCountry(country);
+        newCity.setDescription(description);
+        WebTarget target = client.target("http://localhost:8080/ExploreWise-phase4-Server/resources/cities/create");
+        jakarta.ws.rs.client.Entity theEntity = jakarta.ws.rs.client.Entity.entity(newCity, "application/json");
+        Response response = target.request().post(theEntity);
+    }*/
 
     @Override
     public int hashCode() {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jakarta.ee/xml/ns/jakartaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jakarta.ee/xml/ns/jakartaee http://xmlns.jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
+              version="3.0">
+
+
+    <!-- Add more managed beans as needed -->
+
+   
+    
+</faces-config>
+
+
