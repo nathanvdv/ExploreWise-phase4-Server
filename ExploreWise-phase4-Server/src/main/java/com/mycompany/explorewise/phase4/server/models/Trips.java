@@ -48,6 +48,7 @@ import java.util.List;
     @NamedQuery(name = "Trips.findByEndDate", query = "SELECT t FROM Trips t WHERE t.endDate = :endDate"),
     @NamedQuery(name = "Trips.findByCityName", query = "SELECT t FROM Trips t WHERE t.city.cityName = :cityName"),
     @NamedQuery(name = "Trips.findByAvailability", query = "SELECT t FROM Trips t WHERE t.availability = :availability"),
+    @NamedQuery(name = "Trips.findByCityName",query = "SELECT t FROM Trips t WHERE t.city.cityName = :cityName"),
     @NamedQuery(name = "Trips.findBySeason", query = "SELECT t FROM Trips t WHERE t.season = :season")
 })
 

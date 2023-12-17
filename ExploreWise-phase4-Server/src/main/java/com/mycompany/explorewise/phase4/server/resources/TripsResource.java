@@ -55,7 +55,25 @@ public class TripsResource {
         Query query = em.createNamedQuery("Trips.findAllWithReviews");
         return query.getResultList();
     }
-
+    
+    @GET
+    @Path("/findByName/{cityName}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Trips> findByCityName(@PathParam("cityName") String cityName) {
+        Query query = em.createNamedQuery("Trips.findByCityName", Trips.class);
+        query.setParameter("cityName", cityName);
+        return query.getResultList();
+    }
+    
+    @GET
+    @Path("/findBySeason/{season}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Trips> findBySeason(@PathParam("season") String season) {
+        Query query = em.createNamedQuery("Trips.findBySeason", Trips.class);
+        query.setParameter("season", season);
+        return query.getResultList();
+    }
+    
     @PUT
     @Path("/edit/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
