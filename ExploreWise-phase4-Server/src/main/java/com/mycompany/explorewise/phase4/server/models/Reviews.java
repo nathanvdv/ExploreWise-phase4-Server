@@ -25,13 +25,13 @@ import java.util.Date;
 
 /**
  *
- * @author nathan
+ * @author romainhovius
  */
 @Entity
 @Table(name = "Reviews")
 @NamedQueries({
     @NamedQuery(name = "Reviews.findAll", query = "SELECT r FROM Reviews r"),
-    @NamedQuery(name = "Reviews.findByTripIDAndUserID", query = "SELECT r FROM Reviews r WHERE r.trip.tripID = :tripID AND r.user.userID = :userID"),
+    @NamedQuery(name = "Reviews.findByTripAndUser", query = "SELECT r FROM Reviews r WHERE r.trip.tripID = :tripID AND r.user.userID = :userID"),
     @NamedQuery(name = "Reviews.findByReviewID", query = "SELECT r FROM Reviews r WHERE r.reviewID = :reviewID"),
     @NamedQuery(name = "Reviews.findByTripID", query = "SELECT r FROM Reviews r WHERE r.trip.tripID = :tripID"),
     @NamedQuery(name = "Reviews.findByUserID", query = "SELECT r FROM Reviews r WHERE r.user.userID = :userID"),
@@ -45,6 +45,10 @@ public class Reviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "ReviewID")
     private Integer reviewID;
+    @Column(name = "TripID")
+    private Integer tripID;
+    @Column(name = "UserID")
+    private Integer userID;
     @Column(name = "Rating")
     private Integer rating;
     @Lob
@@ -53,10 +57,10 @@ public class Reviews implements Serializable {
     @Column(name = "ReviewDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reviewDate;
-    
+
     @JsonbTransient
     @ManyToOne
-    @JoinColumn(name = "UserID", referencedColumnName = "UserID")
+    @JoinColumn(name = "UserID", insertable = false, updatable = false)
     private Users user;
     
     @JsonbTransient
@@ -72,17 +76,26 @@ public class Reviews implements Serializable {
         this.user = user;
     }
     
-    @JsonbProperty("userID")
-    public Integer getUserID() {
-        return user.getUserID();
-    }
-    public Trips getTrip() {
-        return trip;
-    }
-    
     @JsonbProperty("tripID")
     public Integer getTripID() {
-        return trip.getTripID();
+        return tripID;
+    }
+    
+    @JsonbProperty("userID")
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public void setTripID(Integer tripID) {
+        this.tripID = tripID;
+    }
+    
+    public Trips getTrip() {
+        return trip;
     }
     
     public void setTrip(Trips trip) {
@@ -126,7 +139,7 @@ public class Reviews implements Serializable {
     public void setReviewDate(Date reviewDate) {
         this.reviewDate = reviewDate;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -149,7 +162,7 @@ public class Reviews implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.explorewise.phase2_v2.models.Reviews[ reviewID=" + reviewID + " ]";
+        return "com.mycompany.explorewise.phase4.server.models.Reviews[ reviewID=" + reviewID + " ]";
     }
     
 }

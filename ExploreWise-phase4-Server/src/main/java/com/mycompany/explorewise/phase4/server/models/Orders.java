@@ -6,6 +6,7 @@ package com.mycompany.explorewise.phase4.server.models;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,28 +15,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Collection;
 import java.util.List;
+
+
+
 
 /**
  *
- * @author nathan
+ * @author romainhovius
  */
 @Entity
 @Table(name = "Orders")
 @NamedQueries({
     @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
     @NamedQuery(name = "Orders.findByOrderID", query = "SELECT o FROM Orders o WHERE o.orderID = :orderID"),
-    @NamedQuery(name = "Orders.findByUserID", query = "SELECT o FROM Orders o WHERE o.user.userID = :userID"),
-    @NamedQuery(name = "Orders.findByTripID", query = "SELECT o FROM Orders o WHERE o.trip.tripID = :tripID"),
+    @NamedQuery(name = "Orders.findByUserID", query = "SELECT o FROM Orders o WHERE o.userID = :userID"),
+    @NamedQuery(name = "Orders.findByTripID", query = "SELECT o FROM Orders o WHERE o.tripID = :tripID"),
     @NamedQuery(name = "Orders.findByTripIDAndUserID", query = "SELECT o FROM Orders o WHERE o.trip.tripID = :tripID AND o.user.userID = :userID"),
     @NamedQuery(name = "Orders.findByOrderDate", query = "SELECT o FROM Orders o WHERE o.orderDate = :orderDate"),
     @NamedQuery(name = "Orders.findByTotalAmount", query = "SELECT o FROM Orders o WHERE o.totalAmount = :totalAmount"),
@@ -48,7 +52,9 @@ public class Orders implements Serializable {
     @Basic(optional = false)
     @Column(name = "OrderID")
     private Integer orderID;
-    @Column(name = "tripID")
+    @Column(name = "UserID")
+    private Integer userID;
+    @Column(name = "TripID")
     private Integer tripID;
     @Column(name = "OrderDate")
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,10 +64,10 @@ public class Orders implements Serializable {
     private Double totalAmount;
     @Column(name = "NumberOfTravelers")
     private Integer numberOfTravelers;
-    
+
     @JsonbTransient
     @ManyToOne
-    @JoinColumn(name = "UserID", referencedColumnName = "UserID")
+    @JoinColumn(name = "UserID", insertable = false, updatable = false )
     private Users user;
     
     @JsonbTransient
@@ -119,7 +125,14 @@ public class Orders implements Serializable {
     public void setOrderID(Integer orderID) {
         this.orderID = orderID;
     }
-    
+    @JsonbProperty("userID")
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
 
     public void setTripID(Integer tripID) {
         this.tripID = tripID;
@@ -171,7 +184,7 @@ public class Orders implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.explorewise.phase2_v2.models.Orders[ orderID=" + orderID + " ]";
+        return "com.mycompany.explorewise.phase4.server.models.Orders[ orderID=" + orderID + " ]";
     }
     
 }
